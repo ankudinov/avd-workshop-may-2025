@@ -31,14 +31,14 @@ jobs:
       - name: Build HTML from Marp 🔨
         uses: docker://ghcr.io/marp-team/marp-cli:v4.1.2
         with:
-          args:  --theme-set ./assets/themes/ --html --input-dir slides/ -o site/slides/
+          args:  --theme-set ./slides/themes/ --html --input-dir slides/ -o site/slides/
         env:
           MARP_USER: root:root
 
       - name: Build PDF from marp_slides.md 🔨
         uses: docker://ghcr.io/marp-team/marp-cli:v4.1.2
         with:
-          args:  --theme-set ./assets/themes/ --html --pdf --allow-local-files --input-dir slides/ -o site/pdfs/
+          args:  --theme-set ./slides/themes/ --html --pdf --allow-local-files --input-dir slides/ -o site/pdfs/
         env:
           MARP_USER: root:root
 

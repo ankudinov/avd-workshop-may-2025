@@ -21,7 +21,7 @@
         }
     },
     "markdown.marp.themes": [
-        "./themes/jobs.css"
+        "./slides/themes/jobs.css"
     ],
     "markdown.marp.html": "all"
 }
