@@ -1,7 +1,6 @@
 ---
 marp: true
-theme: default
-class: invert
+theme: jobs
 author: Petr Ankudinov
 size: 16:9
 paginate: true

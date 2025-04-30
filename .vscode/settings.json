@@ -21,9 +21,7 @@
         }
     },
     "markdown.marp.themes": [
-        "./themes/dracula-custom.css",
-        "./themes/einstein.css",
-        "./themes/jobs.css",
+        "./themes/jobs.css"
     ],
     "markdown.marp.html": "all"
 }
