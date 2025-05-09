@@ -35,9 +35,13 @@ style: |
 
 ---
 
-# TBD
+# WS:D3 - Arista AVD: Architect, Validate, and Deploy
 
-<style scoped>section {font-size: 26px;}</style>
+![bg right:25% fit](img/avd-logo-new.png)
+
+> Leverage Arista AVD to architect, build, deploy, test and document a Layer 3 Leaf Spine with EVPN/VXLAN fabric. Attendees should have knowledge of the following concepts and tools: Git, VS Code, Jinja/YAML, Ansible.
+
+<style scoped>section {font-size: 22px;}</style>
 
 <!-- Do not add page number on this slide -->
 <!--
@@ -61,7 +65,10 @@ footer: '![h:20](https://www.arista.com/assets/images/logo/Arista_Logo.png)'
 
 # Agenda
 
-- TBD
+- IaC & network-wide data models w/ VSCode, Git, and AVD
+- Initial deployment (Day 0 provisioning)
+- Ongoing operations (Day 2 and beyond) of an L3 leaf and spine EVPN/VXLAN fabric.
+- Arista Network to Test Automation (ANTA) network validation
 
 ![bg left](img/pexels-suzy-hazelwood-1226398.jpg)
 
