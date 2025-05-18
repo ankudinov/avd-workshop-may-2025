@@ -135,15 +135,118 @@ AVD commercial traits:
 
 ---
 
+![bg](img/arista-open-ci.png)
+
+---
+
 # ATD (Arista Test Drive) Lab
 
 <style scoped>section {font-size: 24px;}</style>
+<style scoped>p {font-size: 24px;}</style>
 
 ![bg right fit](img/l3ls_topo_overview.png)
 
 - You can access the lab guides on [https://labguides.testdrive.arista.com/](https://labguides.testdrive.arista.com/)
 - Click [this URL](to-be-defined) to get your lab copy
 - Start the lab and wait until it's ready
+
+> While the lab is starting... ⏲️ Let's discuss how to create your own AVD environment.
+
+`Quiz`: AVD / ATD / ACT / ACB / ABC - which one is not valid Arista abbreviation. 😄
+
+---
+
+# AVD Installation Options
+
+<style scoped>section {font-size: 24px;}</style>
+
+<div class="columns">
+<div>
+
+- Ansible CE (Community Edition)
+  - free to use
+  - check [AVD docs](https://avd.arista.com/) for the installation manual
+- Ansible Automation Platform
+  - paid RedHat support
+  - check [AAP guide here](https://avd.arista.com/devel/docs/getting-started/avd-aap.html)
+  - out of scope
+
+</div>
+<div>
+
+After 4.9 (PyAVD is the foundation ⚠️)
+
+```bash
+# ansible-core will be installed as PyAVD requirement
+pip install "pyavd[ansible]"
+ansible-galaxy collection install arista.avd
+# install community.general to support callback plugins, etc.
+ansible-galaxy collection install community.general
+```
+
+- ⚠️ [PyAVD](https://pypi.org/project/pyavd/) is not intended to be used directly
+- Ansible provides a lot of value, for ex. inventory management - use Ansible ⚠️
+- However PyAVD is the foundation that allows to solve a lot of Ansible shortcomings
+
+</div>
+</div>
+
+---
+
+# Virtual Environment vs Containers
+
+<!-- Do not add page number on this slide -->
+<!--
+class: invert
+-->
+
+<style scoped>section {font-size: 22px;}</style>
+
+<div class="columns">
+<div>
+
+venv/pyenv 📦
+
+- Pro:
+  - simple and lightweight
+  - no special tools required
+- Breaks **often**. Troubleshooting complexity: **average**
+- How it breaks:
+  - multiple Pythons
+  - incorrect requirements installation
+  - broken path, custom ansible.cfg, tweaks, etc.
+  - `../../../<ansible-collection>` 🤦 🙈
+
+</div>
+<div>
+
+Containers 🐳
+
+- Pro:
+  - stable, portable
+  - high level of isolation
+- Breaks **rarely**. Troubleshooting complexity: **high**
+- How it breaks:
+  - permission issues 👑
+    - check [this document](https://code.visualstudio.com/remote/advancedcontainers/add-nonroot-user) to UID requirements
+  - broken Docker installation or host OS
+  - tools can be "too heavy" for some users 🔨
+
+</div>
+</div>
+
+---
+
+# Quickest AVD Test Possible
+
+```bash
+podman run --rm -it -w /home/avd ghcr.io/aristanetworks/avd/universal:python3.11-avd-v5.4.0 \
+zsh -c "cp -r /home/avd/.ansible/collections/ansible_collections/arista/avd/examples/single-dc-l3ls/* .; ansible-playbook build.yml; cat intended/configs/dc1-leaf1a.cfg"
+```
+
+ATD environment is based on the [Coder container](https://coder.com/docs/user-guides/workspace-access/vscode)
+
+> Check appendix for details about installing container engine.
 
 ---
 
