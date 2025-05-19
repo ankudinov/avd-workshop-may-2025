@@ -407,20 +407,13 @@ ping 10.20.20.200  # from s2-host1
 
 # Add Banner and Syslog
 
-<style scoped>section {font-size: 16px;}</style>
-<style scoped>p {font-size: 16px;}</style>
+<style scoped>section {font-size: 20px;}</style>
+<style scoped>p {font-size: 20px;}</style>
 
 <div class="columns">
 <div>
 
 - Commit and push everything to your forked repo:
-
-  ```bash
-  git add .
-  git commit -m 'clean up'
-  git push
-  ```
-
 - Github will ask you to authorize
 - Create a new branch: `git switch -c banner-syslog`
 - Add banner and syslog in `global_vars/global_dc_vars.yml` (commit and review after every change)
@@ -428,9 +421,19 @@ ping 10.20.20.200  # from s2-host1
 - Push to upstream: `git push --set-upstream origin banner-syslog`
 - Create, review and merge a pull request. Use your own fork as target!
 - Now pull changes merged into your main branch: `git pull`
+- Delete banner-syslog branch: `git branch -D banner-syslog`
+- Deploy the change: `make deploy-site-1 deploy-site-2`
 
 </div>
 <div>
+
+```bash
+# commit and push
+git add .
+git commit -m 'clean up'
+git push
+git switch -c banner-syslog
+```
 
 ```yaml
 # Login Banner
