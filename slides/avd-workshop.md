@@ -195,11 +195,6 @@ ansible-galaxy collection install community.general
 
 # Virtual Environment vs Containers
 
-<!-- Do not add page number on this slide -->
-<!--
-class: invert
--->
-
 <style scoped>section {font-size: 22px;}</style>
 
 <div class="columns">
@@ -270,3 +265,95 @@ git commit -m "The END!"
 <!--
 footer: '![h:20](https://www.arista.com/assets/images/logo/Arista_Logo.png)'
 -->
+
+---
+
+# AVD Lab Environment: Options
+
+<style scoped>section {font-size: 24px;}</style>
+<style scoped>p {font-size: 24px;}</style>
+
+![bg right:33%](img/demo-time.jpeg)
+
+- Linux
+  - Docker CE
+  - [Install directly](https://avd.arista.com/5.2/docs/installation/collection-installation.html)
+
+    ```bash
+    pip install "pyavd[ansible]"
+    ansible-galaxy collection install arista.avd
+    ```
+
+- Windows
+  - WSL2 + Docker CE
+- MacOS
+  - Podman
+
+⚠️ Use a well maintained and healthy machine!
+
+---
+
+# Linux: Install Docker CE
+
+<style scoped>section {font-size: 24px;}</style>
+<style scoped>p {font-size: 24px;}</style>
+
+<div class="columns">
+<div>
+
+> The install process was tested on Ubuntu LTS
+
+1. Install Docker on the host. You can used one-liner script for that. [Check Docker documentation](https://docs.docker.com/engine/install/ubuntu/) for details.
+2. Add your user to the `docker` group.
+3. Logout and login again to apply the changes.
+4. Check the Docker version and run hello-world container to test functionality.
+5. You must be able to run docker commands without sudo if the installation was succesful.
+
+</div>
+<div>
+
+```bash
+# install Docker
+sudo curl -fsSL https://get.docker.com | sh
+# add user to the docker group
+sudo usermod -aG docker ${USER}
+# test docker
+docker --version
+docker run hello-world
+```
+
+![img](img/docker-logo-blue.png)
+
+</div>
+</div>
+
+---
+
+# Windows: Install WSL2 + ![img h:50](img/docker-logo-blue.png)
+
+<style scoped>section {font-size: 24px;}</style>
+<style scoped>p {font-size: 24px;}</style>
+
+- Install WSL2
+  - Check if default Ubuntu distribution is installed
+  - Windows will ask to restart the PC 😉
+- Install VSCode if not yet installed
+- Install remote development extension on VSCode: `ms-vscode-remote.vscode-remote-extensionpack`
+- On the first run VSCode will suggest to install Docker in WSL - accept
+
+> You can install Docker CE on WSL2 machine directly, but VSCode is a better option
+
+---
+
+# MacOS: Install ![podman h:100](img/podman-logo-full-vert.png) Desktop
+
+- Check [installation docs](https://podman-desktop.io/docs/installation)
+- [Download Podman Desktop here](https://podman-desktop.io/downloads)
+  - Alternative option - [Homebrew](https://formulae.brew.sh/formula/podman)
+- Once Podman Desktop is installed - create Podman machine
+  - <ins>__rootful Podman machine❗__</ins> preferred for a lab
+- Check `podman run hello`
+- Set `alias docker=podman`
+  - future slides will be referring to `docker` assuming this alias
+
+![bg right:33% fit](img/podman-machine.png)
