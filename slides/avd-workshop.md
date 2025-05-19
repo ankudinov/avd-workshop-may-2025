@@ -245,6 +245,52 @@ ATD environment is based on the [Coder container](https://coder.com/docs/user-gu
 
 ---
 
+# Makefile
+
+<style scoped>section {font-size: 24px;}</style>
+
+- If you need a deeper dive into Makefile syntax and use case - the [makefiletutorial.com](https://makefiletutorial.com/) is the best place to start. You'll be an expert in making Makefiles when you finish. :sunglasses:
+- Originally Makefiles were used by C/C++ developers to compile the code.
+- Makefiles have a few advantages that make them useful for other use cases:
+  - They are simple.
+  - They allow assigning a simple shortcut to complex actions.
+  - They are available by default on most Linux distributions.
+- We are going to use Makefile to create shortcuts to simplify some operations.
+
+---
+
+# Let's Prepare The Lab Environment
+
+<style scoped>section {font-size: 20px;}</style>
+
+- ⚠️ [Fork this repository](https://github.com/aristanetworks/ci-workshops-avd) using your own GitHub account
+
+```bash
+# set LABPASSPHRASE env variable
+export LABPASSPHRASE=`cat /home/coder/.config/code-server/config.yaml| grep "password:" | awk '{print $2}'`
+echo "export LABPASSPHRASE=${LABPASSPHRASE}" >> ~/.zshrc
+# clone the lab repository
+cd /home/coder/project/labfiles
+git clone https://github.com/<your-github-account-name>/ci-workshops-avd.git
+cd ci-workshops-avd
+# set Git user.name and user.email
+git config --global user.name "FirstName LastName"
+git config --global user.email "name@example.com"
+# upgrade AVD version and requirements
+pip3 config set global.break-system-packages true
+pip3 config set global.disable-pip-version-check true
+pip3 install -r requirements.txt
+ansible-galaxy collection install -r requirements.yml
+# check if installation is correct
+ansible-galaxy collection list
+# move to L3LS_EVPN directory
+cd labs/L3LS_EVPN
+# set initial lab configs
+make preplab
+```
+
+---
+
 # Q&A
 
 ![bg left](img/pexels-valeriia-miller-3020919.jpg)
