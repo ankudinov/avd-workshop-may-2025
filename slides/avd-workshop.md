@@ -291,6 +291,171 @@ make preplab
 
 ---
 
+# Build and Deploy Fast Forward ⏩
+
+<style scoped>section {font-size: 24px;}</style>
+
+> Detailed walkthrough is available in [the guide](https://labguides.testdrive.arista.com/2024.2/automation/ci_avd_l3ls/day0/#step-2-build-and-deploy-dual-data-center-l3ls-network).
+
+![bg right:25% fit](img/docs-configs.png)
+
+```bash
+# build site1 and site2
+make build-site-1 build-site-2
+make deploy-site-1 deploy-site-2
+# make a few checks
+ssh arista@s1-leaf1
+show ip bgp summary
+show bgp evpn summary
+```
+
+- `Hint`: to deploy both DCs you can add following shortcut to your Makefile
+
+```Makefile
+.PHONY: all
+all: build-site-1 build-site-2 deploy-site-1 deploy-site-2
+```
+
+---
+
+# Add Services and Endpoints
+
+<style scoped>section {font-size: 24px;}</style>
+
+<div class="columns">
+<div>
+
+- Uncomment variables in SITE*_NETWORK_SERVICES.yml and SITE*_CONNECTED_ENDPOINTS.yml
+- Build and deploy new configs
+- Do some checks
+
+</div>
+<div>
+
+```bash
+show vlan brief
+show ip interface brief
+show run interface vxlan 1
+show bgp evpn route-type imet
+show port-channel dense
+# ping host2 from host1
+ping 10.20.20.100  # from s1-host1
+ping 10.20.20.200  # from s2-host1
+```
+
+</div>
+</div>
+
+---
+
+# DCI
+
+<div class="columns">
+<div>
+
+- Uncomment l3_edge in global_vars/global_dc_vars.yml
+- Check `sh ip bgp summary` on `s1-brdr1` and `s2-brdr1`
+- Enable EVPN gateway in sites/site_*/group_vars/SITE*_FABRIC.yml
+- Verify that all hosts can ping each other
+
+</div>
+<div>
+
+```yaml
+    - group: S1_BRDR
+      bgp_as: 65103
+      # evpn_gateway:
+      #   evpn_l2:
+      #     enabled: true
+      #   evpn_l3:
+      #     enabled: true
+      #     inter_domain: true
+      nodes:
+        - name: s1-brdr1
+          id: 5
+          mgmt_ip: 192.168.0.100/24
+          uplink_switch_interfaces: [ Ethernet7, Ethernet7 ]
+          # evpn_gateway:
+          #   remote_peers: 
+          #     - hostname: s2-brdr1
+          #       bgp_as: 65203
+          #       ip_address: 10.250.2.7
+        - name: s1-brdr2
+          id: 6
+          mgmt_ip: 192.168.0.101/24
+          uplink_switch_interfaces: [ Ethernet8, Ethernet8 ]
+          # evpn_gateway:
+          #   remote_peers: 
+          #     - hostname: s2-brdr2
+          #       bgp_as: 65203
+          #       ip_address: 10.250.2.8
+```
+
+</div>
+</div>
+
+---
+
+# Day 2 Ops, Git and CI
+
+![bg right fit](img/Git-Logo-1788C.png)
+
+- [Detailed Day 2 Ops guide](https://labguides.testdrive.arista.com/2024.2/automation/ci_avd_l3ls/day2/)
+- [Detailed CI/CD guide](https://labguides.testdrive.arista.com/2024.2/automation/ci_cd/ci_cd/)
+
+---
+
+# Add Banner and Syslog
+
+<style scoped>section {font-size: 16px;}</style>
+<style scoped>p {font-size: 16px;}</style>
+
+<div class="columns">
+<div>
+
+- Commit and push everything to your forked repo:
+
+  ```bash
+  git add .
+  git commit -m 'clean up'
+  git push
+  ```
+
+- Github will ask you to authorize
+- Create a new branch: `git switch -c banner-syslog`
+- Add banner and syslog in `global_vars/global_dc_vars.yml` (commit and review after every change)
+- `make build-site-1 build-site-2` (do NOT deploy!)
+- Push to upstream: `git push --set-upstream origin banner-syslog`
+- Create, review and merge a pull request. Use your own fork as target!
+- Now pull changes merged into your main branch: `git pull`
+
+</div>
+<div>
+
+```yaml
+# Login Banner
+banners:
+  motd: |
+    You shall not pass. Unless you are authorized. Then you shall pass.
+    EOF
+
+# Syslog
+logging:
+  vrfs:
+    - name: default
+      source_interface: Management0
+      hosts:
+        - name: 10.200.0.108
+        - name: 10.200.1.108
+```
+
+![banner pr](img/banner-github-pr.png)
+
+</div>
+</div>
+
+---
+
 # Q&A
 
 ![bg left](img/pexels-valeriia-miller-3020919.jpg)
