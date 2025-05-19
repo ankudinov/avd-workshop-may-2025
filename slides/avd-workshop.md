@@ -459,6 +459,60 @@ logging:
 
 ---
 
+# CI/CD: Prepare GitHub Actions
+
+<div class="columns">
+<div>
+
+- Enable GitHub Actions on your fork
+- Set Actions secret called `LABPASSPHRASE`
+- Follow GitHub instructions to add your own runner
+- Accept all default options
+- Start the runner
+
+</div>
+<div>
+
+![runner](img/self-hosted-runner.png)
+
+</div>
+</div>
+
+---
+
+# Pre-Commit
+
+<style scoped>section {font-size: 20px;}</style>
+<style scoped>p {font-size: 20px;}</style>
+
+- Pre-commit helps to identify some common problems before someone will see your PR
+- Install pre-commit:
+
+  ```bash
+  pip3 install pre-commit
+  pre-commit install
+  # this last step is required as pre-commit will be looking for Python on your machine
+  sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.11 20
+  ```
+
+- Run it locally with `pre-commit run -a` or wait for the workflow to fail and fix errors.
+
+  ![alt text](img/pre-commit-fail.png)
+
+- Change `files:` path in `.pre-commit-config.yml` to `labs/L3LS_EVPN...`
+
+![bg right:25% fit](img/pre-commit-logo.svg)
+
+---
+
+# First CI Run
+
+- Check `.github/workflows/dev.yml` and `.github/workflows/prod.yml`
+- Set `runs-on: self-hosted`
+- Create `init-ci` branch and uncomment following section to test workflows
+
+---
+
 # Q&A
 
 ![bg left](img/pexels-valeriia-miller-3020919.jpg)
