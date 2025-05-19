@@ -507,9 +507,83 @@ logging:
 
 # First CI Run
 
-- Check `.github/workflows/dev.yml` and `.github/workflows/prod.yml`
-- Set `runs-on: self-hosted`
-- Create `init-ci` branch and uncomment following section to test workflows
+<style scoped>section {font-size: 16px;}</style>
+<style scoped>p {font-size: 16px;}</style>
+
+<div class="columns">
+<div>
+
+- Create `init-ci` branch and update `.github/workflows/dev.yml` to match this slide:
+- Make sure that `runs-on: self-hosted` and path is updated to `L3LS_EVPN`
+- Commit and push
+- Check the workflow status
+
+</div>
+<div>
+
+```yaml
+name: Test the upcoming changes
+
+on:
+  push:
+    branches-ignore:
+      - main
+
+jobs:
+  dev:
+    env:
+      LABPASSPHRASE: ${{ secrets.LABPASSPHRASE }}
+    timeout-minutes: 15
+    runs-on: self-hosted
+    steps:
+      - name: Hi
+        run: echo "Hello World!"
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+
+      - name: Install Python requirements
+        run: pip3 install -r requirements.txt
+
+      - name: Run pre-commit on files
+        uses: pre-commit/action@v3.0.0
+
+      - name: Check paths for sites/site_1
+        uses: dorny/paths-filter@v3
+        id: filter-site1
+        with:
+          filters: |
+            workflows:
+              - 'labs/L3LS_EVPN/sites/site_1/**'
+
+      - name: Check paths for sites/site_2
+        uses: dorny/paths-filter@v3
+        id: filter-site2
+        with:
+          filters: |
+            workflows:
+              - 'labs/L3LS_EVPN/sites/site_2/**'
+
+      - name: Install collections
+        run: ansible-galaxy collection install -r requirements.yml
+        if: steps.filter-site1.outputs.workflows == 'true' || steps.filter-site2.outputs.workflows == 'true'
+
+      - name: Test configuration for site1
+        run: make build-site-1
+        working-directory: labs/L3LS_EVPN/
+        if: steps.filter-site1.outputs.workflows == 'true'
+
+      - name: Test configuration for site2
+        run: make build-site-2
+        working-directory: labs/L3LS_EVPN/
+        if: steps.filter-site2.outputs.workflows == 'true'
+```
+
+</div>
+</div>
 
 ---
 
