@@ -866,6 +866,9 @@ docker run hello-world
 
 # MacOS: Install ![podman h:100](img/podman-logo-full-vert.png) Desktop
 
+<style scoped>section {font-size: 24px;}</style>
+<style scoped>p {font-size: 24px;}</style>
+
 - Check [installation docs](https://podman-desktop.io/docs/installation)
 - [Download Podman Desktop here](https://podman-desktop.io/downloads)
   - Alternative option - [Homebrew](https://formulae.brew.sh/formula/podman)
