@@ -152,7 +152,7 @@ AVD commercial traits:
 
 > While the lab is starting... ⏲️ Let's discuss how to create your own AVD environment.
 
-`Quiz`: AVD / ATD / ACT / ACB / ABC - which one is not valid Arista abbreviation. 😄
+`Quiz`: AVD / ATD / ACT / ACB / ABC - which one is not a valid Arista abbreviation. 😄
 
 ---
 
@@ -174,7 +174,7 @@ AVD commercial traits:
 </div>
 <div>
 
-After 4.9 (PyAVD is the foundation ⚠️)
+PyAVD is the foundation ⚠️
 
 ```bash
 # ansible-core will be installed as PyAVD requirement
