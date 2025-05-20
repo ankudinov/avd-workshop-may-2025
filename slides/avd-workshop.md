@@ -515,6 +515,7 @@ logging:
 
 - Create `init-ci` branch and update `.github/workflows/dev.yml` to match this slide:
 - Make sure that `runs-on: self-hosted` and path is updated to `L3LS_EVPN`
+- Add new VLAN and build new configs
 - Commit and push
 - Check the workflow status
 
@@ -580,6 +581,182 @@ jobs:
         run: make build-site-2
         working-directory: labs/L3LS_EVPN/
         if: steps.filter-site2.outputs.workflows == 'true'
+```
+
+</div>
+</div>
+
+---
+
+# Prod CI Run
+
+<style scoped>section {font-size: 16px;}</style>
+<style scoped>p {font-size: 16px;}</style>
+
+<div class="columns">
+<div>
+
+- Create and review a PR
+- Use `deploy-site-1` and `deploy-site-2`, not CVP!
+- Double-check that `runs-on: self-hosted` is present.
+- Add new VLAN and build new configs
+- Commit and push
+- Merge to the main branch
+- Check the workflow status
+- Check that VLAN was provisioned
+
+</div>
+<div>
+
+```yaml
+name: Deploy updates
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy-prod:
+    env:
+      LABPASSPHRASE: ${{ secrets.LABPASSPHRASE }}
+    timeout-minutes: 15
+    runs-on: self-hosted
+    steps:
+      - name: Hi
+        run: echo "Hello World!"
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+
+      - name: Install Python requirements
+        run: pip3 install -r requirements.txt
+
+      - name: Run pre-commit on files
+        uses: pre-commit/action@v3.0.0
+
+      - name: Check paths for sites/site_1
+        uses: dorny/paths-filter@v3
+        id: filter-site1
+        with:
+          filters: |
+            workflows:
+              - 'labs/L3LS_EVPN/sites/site_1/**'
+
+      - name: Check paths for sites/site_2
+        uses: dorny/paths-filter@v3
+        id: filter-site2
+        with:
+          filters: |
+            workflows:
+              - 'labs/L3LS_EVPN/sites/site_2/**'
+
+      - name: Install collections
+        run: ansible-galaxy collection install -r requirements.yml
+        if: steps.filter-site1.outputs.workflows == 'true' || steps.filter-site2.outputs.workflows == 'true'
+
+      - name: Build and deploy site1
+        run: make build-site-1 deploy-site-1
+        working-directory: labs/L3LS_EVPN/
+        if: steps.filter-site1.outputs.workflows == 'true'
+
+      - name: Build and deploy site2
+        run: make build-site-2 deploy-site-2
+        working-directory: labs/L3LS_EVPN/
+        if: steps.filter-site2.outputs.workflows == 'true'
+```
+
+</div>
+</div>
+
+---
+
+# Publish AVD Docs on GitHub Pages
+
+<style scoped>section {font-size: 16px;}</style>
+<style scoped>p {font-size: 16px;}</style>
+
+<div class="columns">
+<div>
+
+- Go to Github Pages settings and select `Source > GitHub Actions`
+- Confirm that GitHub Actions have write permissions
+- Create `doc/index.md` in the root of your repository
+- Create a very simple `mkdocs.yml` in the root of your repository:
+
+```yaml
+---
+site_name: AVD docs
+
+theme:
+  name: material
+
+nav:
+  - Home:
+    - Site 1 Fabric Docs: site_1/fabric/SITE1_FABRIC-documentation.md
+    - Site 2 Fabric Docs: site_2/fabric/SITE2_FABRIC-documentation.md
+```
+
+- Add `.github/workflows/publish-pages.yml`
+- Push the change to the main branch and check that docs are deployed
+
+</div>
+<div>
+
+```yaml
+---
+name: publish AVD docs
+on:
+  push:
+    branches: [ 'main' ]
+    paths:
+    - labs/L3LS_EVPN/sites/site_1/documentation/**
+    - labs/L3LS_EVPN/sites/site_2/documentation/**
+    - mkdocs.yml
+    - .github/workflows/publish-pages.yml
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    steps:
+
+      - name: Checkout code ✅
+        uses: actions/checkout@v4
+
+      - name: move AVD docs ✂️
+        run: |
+          mkdir -p docs/site_1
+          mkdir -p docs/site_2
+          cp -r labs/L3LS_EVPN/sites/site_1/documentation/* docs/site_1
+          cp -r labs/L3LS_EVPN/sites/site_2/documentation/* docs/site_2
+
+      - name: Setup Python3 🐍
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Build MkDocs Site
+        run: |
+          pip install mkdocs-material
+          mkdocs build
+
+      - name: Setup Pages 📖
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact 🔼
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./site/
+
+      - name: Deploy to GitHub Pages 🚀
+        id: deployment
+        uses: actions/deploy-pages@v4
 ```
 
 </div>
