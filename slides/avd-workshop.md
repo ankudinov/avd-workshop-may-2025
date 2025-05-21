@@ -125,7 +125,10 @@ footer: '![h:20](https://www.arista.com/assets/images/logo/Arista_Logo.png)'
 
 # AVD is Open Source
 
-![bg right:20% fit](img/pexels-markus-winkler-1430818-12081252.jpg)
+<style scoped>section {font-size: 18px;}</style>
+<style scoped>p {font-size: 18px;}</style>
+
+![bg right fit](img/avd-pulse.png)
 
 - AVD was started by Arista community and for Arista community
 - Open source means that you can use it for free and have full power as long as you take the responsibility of a power user:
@@ -260,6 +263,20 @@ ATD environment is based on the [Coder container](https://coder.com/docs/user-gu
   - They allow assigning a simple shortcut to complex actions.
   - They are available by default on most Linux distributions.
 - We are going to use Makefile to create shortcuts to simplify some operations.
+
+---
+
+# Change Requirements
+
+![bg right](img/pexels-ian-panelo-4502492.jpg)
+
+- Change your `requirements.txt` to install lates AVD and ANTA CLI
+
+```text
+anta[cli]==1.4.0
+passlib
+pyavd[ansible]==5.4.0
+```
 
 ---
 
