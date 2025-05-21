@@ -23,5 +23,9 @@
     "markdown.marp.themes": [
         "./slides/themes/jobs.css"
     ],
-    "markdown.marp.html": "all"
+    "markdown.marp.html": "all",
+    "cSpell.words": [
+        "asyncio",
+        "NRFU"
+    ]
 }
