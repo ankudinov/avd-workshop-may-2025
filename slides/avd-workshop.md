@@ -90,10 +90,14 @@ footer: '![h:20](https://www.arista.com/assets/images/logo/Arista_Logo.png)'
 
 # Agenda
 
-- IaC & network-wide data models w/ VSCode, Git, and AVD
-- Initial deployment (Day 0 provisioning)
-- Ongoing operations (Day 2 and beyond) of an L3 leaf and spine EVPN/VXLAN fabric.
-- Arista Network Test Automation (ANTA) network validation
+- Arista AVD overview
+- How to create AVD environment and ATD Lab overview
+- 5 minutes intro to Makefile
+- Build and deploy dual DC EVPN
+- Services, endpoints and DCI
+- Day 2 provisioning
+- CI with GitHub Actions and Pages
+- Network testing hour with ANTA
 
 ![bg left](img/pexels-suzy-hazelwood-1226398.jpg)
 
