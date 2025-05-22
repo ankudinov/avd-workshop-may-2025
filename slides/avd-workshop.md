@@ -142,7 +142,7 @@ AVD commercial traits:
 
 ---
 
-![bg](img/arista-open-ci.png)
+![bg](img/avd-ci-pipeline.png)
 
 ---
 
