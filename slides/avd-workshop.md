@@ -142,7 +142,7 @@ AVD commercial traits:
 
 ---
 
-![bg](img/avd-ci-pipeline.png)
+![bg fit](img/avd-ci-pipeline.png)
 
 ---
 
