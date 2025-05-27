@@ -167,7 +167,7 @@ AVD commercial traits:
 ![bg right fit](img/l3ls_topo_overview.png)
 
 - You can access the lab guides on [https://labguides.testdrive.arista.com/](https://labguides.testdrive.arista.com/)
-- Click [this URL](to-be-defined) to get your lab copy
+- Click [this URL](https://testdrive.arista.com/labs?lab=wholly-brief-quagga) to get your lab copy
 - Start the lab and wait until it's ready
 
 > While the lab is starting... ⏲️ Let's discuss how to create your own AVD environment.
