@@ -404,6 +404,9 @@ ping 10.20.20.200  # from s2-host1
 
 # DCI
 
+<style scoped>section {font-size: 26px;}</style>
+<style scoped>p {font-size: 26px;}</style>
+
 <div class="columns">
 <div>
 
@@ -411,6 +414,8 @@ ping 10.20.20.200  # from s2-host1
 - Check `sh ip bgp summary` on `s1-brdr1` and `s2-brdr1`
 - Enable EVPN gateway in sites/site_*/group_vars/SITE*_FABRIC.yml
 - Verify that all hosts can ping each other
+
+`Quiz`: What is the purpose of EVPN gateway?
 
 </div>
 <div>
@@ -556,6 +561,8 @@ logging:
   ![alt text](img/pre-commit-fail.png)
 
 ![bg right:25% fit](img/pre-commit-logo.svg)
+
+`Quiz`: What is linter? Name at least one example.
 
 ---
 
