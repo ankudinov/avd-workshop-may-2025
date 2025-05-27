@@ -72,7 +72,7 @@ footer: '![h:20](https://www.arista.com/assets/images/logo/Arista_Logo.png)'
 
 # Credits
 
-<style scoped>section {font-size: 22px;}</style>
+<style scoped>section {font-size: 20px;}</style>
 
 ![bg right:35% fit vertical](img/marp.png)
 ![bg right:35% w:250](img/slides-qr.png)
@@ -86,6 +86,7 @@ footer: '![h:20](https://www.arista.com/assets/images/logo/Arista_Logo.png)'
 - 🌐 Wi-Fi & Connectivity
   - Network Name: **AutoCon3**
   - Password: **PragueRocks!**
+- Slack: `ac3-ws-d3-arista`
 
 > Scan QR code to access the slide deck.
 
