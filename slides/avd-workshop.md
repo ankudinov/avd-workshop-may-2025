@@ -875,6 +875,7 @@ jobs:
 `Quiz`: Explain the advantage of using asyncio for network bound IO operations.
 
 </div>
+</div>
 
 ---
 
@@ -901,6 +902,168 @@ jobs:
   anta get from-ansible --ansible-inventory sites/site_1/inventory.yml \
   --ansible-group SITE1_FABRIC --output sites/site_1/anta_inventory.yml --overwrite
   ```
+
+---
+
+# ANTA Cheatsheet
+
+<div class="columns">
+<div>
+
+```bash
+cd /home/coder/project/labfiles/ci-workshops-avd/labs/L3LS_EVPN
+# Run the tests
+anta nrfu  -u arista -p ${LABPASSPHRASE} -i sites/site_1/anta_inventory.yml -c tests/all.yml table
+# Export variables
+export ANTA_USERNAME=arista
+export ANTA_PASSWORD=$LABPASSPHRASE
+export ANTA_CATALOG=tests/all.yml
+export ANTA_INVENTORY=sites/site_1/anta_inventory.yml 
+# Run again
+anta nrfu  table
+# Update catalog in tests/all.yml with content of catalog
+# run again
+anta nrfu table
+```
+
+</div>
+<div>
+
+```yaml
+anta.tests.system:
+  - VerifyUptime:
+      minimum: 600
+anta.tests.hardware:
+  # Verifies the status of power supply fans and all fan trays.
+  - VerifyEnvironmentCooling:
+      states:
+        - ok
+anta.tests.software:
+  # Verifies the device is running one of the allowed TerminAttr version.
+  - VerifyTerminAttrVersion:
+      versions:
+        - v1.32.0
+        - v1.35.0
+```
+
+</div>
+</div>
+
+---
+
+# ANTA Inventory Tags
+
+<style scoped>section {font-size: 12px;}</style>
+<style scoped>p {font-size: 12px;}</style>
+
+<div class="columns">
+<div>
+
+```yaml
+anta_inventory:
+  hosts:
+  - host: 192.168.0.10
+    name: s1-spine1
+    tags: ['spine']
+  - host: 192.168.0.11
+    name: s1-spine2
+    tags: ['spine']
+  - host: 192.168.0.12
+    name: s1-leaf1
+    tags: ['leaf']
+  - host: 192.168.0.13
+    name: s1-leaf2
+    tags: ['leaf']
+  - host: 192.168.0.14
+    name: s1-leaf3
+    tags: ['leaf']
+  - host: 192.168.0.15
+    name: s1-leaf4
+    tags: ['leaf']
+  - host: 192.168.0.100
+    name: s1-brdr1
+    tags: ['border']
+  - host: 192.168.0.101
+    name: s1-brdr2
+    tags: ['border']
+```
+
+```bash
+anta nrfu --hide skipped table
+anta nrfu table --group-by device
+anta nrfu --tags leaf table 
+anta nrfu --tags leaf table --group-by device
+anta nrfu --tags leaf,spine table
+```
+
+</div>
+<div>
+
+```yaml
+anta.tests.system:
+  - VerifyUptime:
+      minimum: 600
+
+anta.tests.hardware:
+  # Verifies the status of power supply fans and all fan trays.
+  - VerifyEnvironmentCooling:
+      states:
+        - ok
+
+anta.tests.software:
+  # Verifies the device is running one of the allowed TerminAttr version.
+  - VerifyTerminAttrVersion:
+      versions:
+        - v1.32.0
+        - v1.35.0
+
+anta.tests.routing:
+  generic:
+    - VerifyRoutingProtocolModel:
+        model: multi-agent
+  bgp:
+    - VerifyBGPPeerCount:
+        address_families:
+          - afi: "evpn"
+            num_peers: 2
+          - afi: "ipv4"
+            safi: "unicast"
+            vrf: "OVERLAY"
+            num_peers: 1
+          - afi: "ipv4"
+            safi: "unicast"
+            vrf: "default"
+            num_peers: 3
+        filters:
+          tags: ["leaf"]
+    - VerifyBGPPeerCount:
+        address_families:
+          - afi: "evpn"
+            num_peers: 6
+          - afi: "ipv4"
+            safi: "unicast"
+            vrf: "default"
+            num_peers: 6
+        filters:
+          tags: ["spine"]
+    - VerifyBGPPeerCount:
+        address_families:
+          - afi: "evpn"
+            num_peers: 2
+          - afi: "ipv4"
+            safi: "unicast"
+            vrf: "OVERLAY"
+            num_peers: 1
+          - afi: "ipv4"
+            safi: "unicast"
+            vrf: "default"
+            num_peers: 3
+        filters:
+          tags: ["border"]
+```
+
+</div>
+</div>
 
 ---
 
