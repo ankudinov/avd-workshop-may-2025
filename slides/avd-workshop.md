@@ -880,6 +880,16 @@ jobs:
 
   ```bash
   cd /home/coder/project/labfiles/ci-workshops-avd/labs/L3LS_EVPN
+  # Copy the test inventory with IP addresses
+  cp ~/project/labfiles/ci-workshops-avd/labs/NET_TESTING/sites/site_1/inventory.yml sites/site_1
+  # Copy the test catalog
+  cp -r ~/project/labfiles/ci-workshops-avd/labs/NET_TESTING/tests .
+  ```
+
+- Generate the ANTA inventory from the AVD inventory
+
+  ```bash
+  cd /home/coder/project/labfiles/ci-workshops-avd/labs/L3LS_EVPN
   # Copy the test inventories with IP addresses
   cp ~/project/labfiles/ci-workshops-avd/labs/NET_TESTING/sites/site_1/inventory.yml sites/site_1
   # Copy the test catalog
@@ -926,7 +936,7 @@ jobs:
 ```bash
 .PHONY: validate-site-1
 validate-site-1: ## Validate network state
-    ansible-playbook playbooks/validate.yml -i sites/site_1/inventory.yml -e "target_hosts=SITE1_FABRIC"
+	ansible-playbook playbooks/validate.yml -i sites/site_1/inventory.yml -e "target_hosts=SITE1_FABRIC"
 ```
 
 - Add the following playbook `validate.yml` in your playbook directory. Note that we are using the new `anta_runner` role instead of `eos_validate_state`.
