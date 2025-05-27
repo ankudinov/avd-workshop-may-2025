@@ -889,11 +889,8 @@ jobs:
 - Generate the ANTA inventory from the AVD inventory
 
   ```bash
-  cd /home/coder/project/labfiles/ci-workshops-avd/labs/L3LS_EVPN
-  # Copy the test inventories with IP addresses
-  cp ~/project/labfiles/ci-workshops-avd/labs/NET_TESTING/sites/site_1/inventory.yml sites/site_1
-  # Copy the test catalog
-  cp -r ~/project/labfiles/ci-workshops-avd/labs/NET_TESTING/tests .
+  anta get from-ansible --ansible-inventory sites/site_1/inventory.yml \
+  --ansible-group SITE1_FABRIC --output sites/site_1/anta_inventory.yml --overwrite
   ```
 
 ---
