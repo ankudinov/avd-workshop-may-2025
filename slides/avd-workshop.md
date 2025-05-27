@@ -562,8 +562,6 @@ logging:
 
 ![bg right:25% fit](img/pre-commit-logo.svg)
 
-`Quiz`: What is linter? Name at least one example.
-
 ---
 
 # First CI Run
@@ -579,6 +577,8 @@ logging:
 - Add new VLAN and build new configs
 - Commit and push
 - Check the workflow status
+
+`Quiz`: What is linter? Name at least one example.
 
 </div>
 <div>
@@ -871,6 +871,8 @@ jobs:
 - Reuse validated tests accelerate test automation
 
 - Reduce the cost in certifying a new NOS version on the network
+
+`Quiz`: Explain the advantage of using asyncio for network bound IO operations.
 
 </div>
 
